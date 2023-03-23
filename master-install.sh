@@ -23,7 +23,7 @@ if [ -n "$choices" ]; then
   # Baixa e executa os scripts de instalação dos programas selecionados
   for choice in $choices; do
     echo "Baixando o arquivo $choice-install.sh..."
-    wget https://raw.githubusercontent.com/seu-usuario/seu-repositorio/master/$choice-install.sh
+    wget https://raw.githubusercontent.com/lucas-de-lima/manjaro-installation-scripts/main/$choice-install.sh
     echo "Executando o arquivo $choice-install.sh..."
     bash $choice-install.sh
   done
