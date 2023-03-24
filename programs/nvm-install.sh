@@ -1,10 +1,10 @@
 #!/bin/bash
 
-if pacman -Q nvm >/dev/null 2>&1; then
+if yay -Q nvm >/dev/null 2>&1; then
     echo "NVM já está instalado. Ignorando a instalação."
 else
     echo "Instalando o NVM..."
-    sudo pacman -S --noconfirm nvm
+    sudo yay -S --noconfirm nvm
 
     echo "Configurando o NVM..."
     echo 'source /usr/share/nvm/init-nvm.sh' >>~/.zshrc

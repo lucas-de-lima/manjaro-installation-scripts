@@ -16,6 +16,19 @@ function install_manual() {
   done
 }
 
+# Instalação do Yay
+if ! command -v yay &>/dev/null; then
+  echo "Instalando o Yay..."
+  sudo pacman -Syu --noconfirm git base-devel
+  git clone https://aur.archlinux.org/yay.git
+  cd yay
+  makepkg -si --noconfirm
+  cd ..
+  rm -rf yay
+else
+  echo "Yay já está instalado. Ignorando a instalação."
+fi
+
 # Função para instalar todos os programas do repositório
 function install_all() {
   # Mensagem para informar que todos os programas do repositório serão instalados
