@@ -1,10 +1,13 @@
-#!/bin/bash
-echo "Instalando o Docker..."
-sudo pacman -S --noconfirm docker
+if pacman -Q docker >/dev/null 2>&1; then
+  echo "Docker já está instalado. Ignorando a instalação."
+else
+  echo "Instalando o Docker..."
+  sudo pacman -S --noconfirm docker
 
-echo "Iniciando o serviço do Docker..."
-sudo systemctl start docker.service
-sudo systemctl enable docker.service
-# Adiciona o usuário atual ao grupo docker
-echo "Adicionando o usuário atual ao grupo docker"
-sudo usermod -aG docker $USER
+  echo "Iniciando o serviço do Docker..."
+  sudo systemctl start docker.service
+  sudo systemctl enable docker.service
+
+  # Adiciona o usuário atual ao grupo docker
+  sudo usermod -aG docker $USER
+fi

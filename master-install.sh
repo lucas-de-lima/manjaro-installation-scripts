@@ -1,12 +1,10 @@
 #!/bin/bash
 echo "Executando script master..."
 echo "Verificando se o sistema está atualizado..."
-if ! sudo pacman -Syup &> /dev/null; then
-echo "O sistema não está atualizado, atualizando agora..."
-sudo pacman -Syu --noconfirm -y
+if ! sudo pacman -Syup &>/dev/null; then
+  echo "O sistema não está atualizado, atualizando agora..."
+  sudo pacman -Syu --noconfirm -y
 fi
-
-#!/bin/bash
 
 # Função para instalar programas manualmente
 function install_manual() {
@@ -36,7 +34,6 @@ function install_all() {
   done
 }
 
-
 # Verifica se o usuário deseja instalar programas manualmente ou todos do repositório
 if [[ $1 == "manual" ]]; then
   install_manual
@@ -50,17 +47,17 @@ else
 
   # Verifica a opção escolhida pelo usuário e executa o script correspondente
   case $option in
-    1)
-      # Script para instalar todos os programas do repositório
-      install_all
-      ;;
-    2)
-      # Script para instalar manualmente os programas desejados
-      install_manual
-      ;;
-    *)
-      echo "Opção inválida"
-      exit 1
-      ;;
+  1)
+    # Script para instalar todos os programas do repositório
+    install_all
+    ;;
+  2)
+    # Script para instalar manualmente os programas desejados
+    install_manual
+    ;;
+  *)
+    echo "Opção inválida"
+    exit 1
+    ;;
   esac
 fi
