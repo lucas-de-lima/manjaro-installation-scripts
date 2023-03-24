@@ -56,6 +56,7 @@ else
   echo "1 - Instalar todos os programas disponíveis no repositório"
   echo "2 - Instalar manualmente os programas desejados"
 
+  read -r -d '' _ </dev/tty
   read -p "Opção desejada: " && case $REPLY in
   1)
     # Script para instalar todos os programas do repositório
