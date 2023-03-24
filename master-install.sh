@@ -56,7 +56,7 @@ else
   echo "1 - Instalar todos os programas disponíveis no repositório"
   echo "2 - Instalar manualmente os programas desejados"
 
-  read -p "Opção desejada: " option
+  read -rp "Opção desejada: " option
 
   # Verifica a opção escolhida pelo usuário e executa o script correspondente
   case $option in
