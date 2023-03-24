@@ -3,30 +3,64 @@ echo "Executando script master..."
 echo "Verificando se o sistema está atualizado..."
 if ! sudo pacman -Syup &> /dev/null; then
 echo "O sistema não está atualizado, atualizando agora..."
-sudo pacman -Syyu --noconfirm -y
+sudo pacman -Syu --noconfirm -y
 fi
 
-# Instala o dialog se não estiver instalado
-sudo pacman -S --needed dialog
+#!/bin/bash
 
-# Exibe uma caixa de diálogo com uma lista de opções para o usuário selecionar
-choices=$(dialog --title "Programas para instalar" --checklist \
-  "Selecione os programas que deseja instalar:" 15 60 4 \
-  "firefox" "Navegador da web" on \
-  "vlc" "Reprodutor de mídia" off \
-  "gimp" "Editor de imagem" off \
-  "inkscape" "Editor de vetor" off \
-  3>&1 1>&2 2>&3)
-
-# Verifica se o usuário selecionou pelo menos um programa
-if [ -n "$choices" ]; then
-  # Baixa e executa os scripts de instalação dos programas selecionados
-  for choice in $choices; do
-    echo "Baixando o arquivo $choice-install.sh..."
-    wget https://raw.githubusercontent.com/lucas-de-lima/manjaro-installation-scripts/main/$choice-install.sh
-    echo "Executando o arquivo $choice-install.sh..."
-    bash $choice-install.sh
+# Função para instalar programas manualmente
+function install_manual() {
+  echo "Digite o nome dos programas que deseja instalar separados por espaço:"
+  read programs
+  for program in $programs; do
+    echo "Instalando $program..."
+    sudo pacman -S --noconfirm $program
   done
+}
+
+# Função para instalar todos os programas do repositório
+function install_all() {
+  # Mensagem para informar que todos os programas do repositório serão instalados
+  echo "Instalando todos os programas do repositório..."
+
+  # URL do repositório onde os arquivos .sh estão hospedados
+  repo_url="https://raw.githubusercontent.com/lucas-de-lima/manjaro-installation-scripts/main/programs/"
+
+  # Loop para percorrer todos os arquivos .sh no repositório
+  for file in $(curl -sSL $repo_url); do
+    # Mensagem para informar qual programa está sendo instalado
+    echo "Instalando $file..."
+
+    # Comando para baixar e executar o arquivo .sh correspondente ao programa
+    curl -sSL $repo_url$file | bash
+  done
+}
+
+
+# Verifica se o usuário deseja instalar programas manualmente ou todos do repositório
+if [[ $1 == "manual" ]]; then
+  install_manual
 else
-  echo "Nenhum programa selecionado. Saindo..."
+  # Prompt para o usuário escolher entre instalar tudo ou escolher manualmente
+  echo "Bem-vindo ao script de instalação do Manjaro! Escolha uma das opções abaixo:"
+  echo "1 - Instalar todos os programas disponíveis no repositório"
+  echo "2 - Instalar manualmente os programas desejados"
+
+  read -p "Opção desejada: " option
+
+  # Verifica a opção escolhida pelo usuário e executa o script correspondente
+  case $option in
+    1)
+      # Script para instalar todos os programas do repositório
+      install_all
+      ;;
+    2)
+      # Script para instalar manualmente os programas desejados
+      install_manual
+      ;;
+    *)
+      echo "Opção inválida"
+      exit 1
+      ;;
+  esac
 fi
