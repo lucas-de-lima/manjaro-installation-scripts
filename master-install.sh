@@ -29,47 +29,32 @@ else
   echo "Yay já está instalado. Ignorando a instalação."
 fi
 
-# Função para instalar todos os programas do repositório
-function install_all() {
-  # Mensagem para informar que todos os programas do repositório serão instalados
-  echo "Instalando todos os programas do repositório..."
+# Prompt para o usuário escolher entre instalar tudo ou escolher manualmente
+echo "Bem-vindo ao script de instalação do Manjaro! Escolha uma das opções abaixo:"
+echo "1 - Instalar todos os programas disponíveis no repositório"
+echo "2 - Instalar manualmente os programas desejados"
 
+read -p "Escolha uma opção: " opcao
+case $opcao in
+1)
+  # Script para instalar todos os programas do repositório
+  echo "Instalando todos os programas do repositório..."
   # URL do repositório onde os arquivos .sh estão hospedados
   repo_url="https://raw.githubusercontent.com/lucas-de-lima/manjaro-installation-scripts/main/programs/"
-
   # Loop para percorrer todos os arquivos .sh no repositório
   for file in $(curl -sSL $repo_url); do
     # Mensagem para informar qual programa está sendo instalado
     echo "Instalando $file..."
-
     # Comando para baixar e executar o arquivo .sh correspondente ao programa
     curl -sSL $repo_url$file | bash
   done
-}
-
-# Verifica se o usuário deseja instalar programas manualmente ou todos do repositório
-if [[ $1 == "manual" ]]; then
+  ;;
+2)
+  # Script para instalar manualmente os programas desejados
   install_manual
-else
-  # Prompt para o usuário escolher entre instalar tudo ou escolher manualmente
-  echo "Bem-vindo ao script de instalação do Manjaro! Escolha uma das opções abaixo:"
-  echo "1 - Instalar todos os programas disponíveis no repositório"
-  echo "2 - Instalar manualmente os programas desejados"
-
-  read -p "Escolha uma opção: " opcao
-  case $opcao in
-  1)
-    # Script para instalar todos os programas do repositório
-    install_all
-    ;;
-  2)
-    # Script para instalar manualmente os programas desejados
-    install_manual
-    ;;
-  *)
-    echo "Opção inválida"
-    exit 1
-    ;;
-  esac
-
-fi
+  ;;
+*)
+  echo "Opção inválida"
+  exit 1
+  ;;
+esac
