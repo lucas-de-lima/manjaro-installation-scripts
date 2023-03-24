@@ -46,7 +46,10 @@ case $opcao in
     # Mensagem para informar qual programa está sendo instalado
     echo "Instalando $file..."
     # Comando para baixar e executar o arquivo .sh correspondente ao programa
-    curl -sSL $repo_url$file | bash
+    curl -sSL $repo_url$file | bash || {
+      echo "Ocorreu um erro na instalação do programa $file."
+      exit 1
+    }
   done
   ;;
 2)
