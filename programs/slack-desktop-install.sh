@@ -10,5 +10,5 @@ else
     sudo yay -Sy
 
     echo "Instalando o Slack..."
-    sudo yay -S --noconfirm slack-desktop
+    yay -S --noconfirm slack-desktop
 fi
