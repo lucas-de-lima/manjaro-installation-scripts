@@ -12,22 +12,19 @@ function install_manual() {
   read programs
   for program in $programs; do
     echo "Instalando $program..."
-    sudo pacman -S --noconfirm $program
+    sudo yay -S --noconfirm $program
   done
 }
 
-# Instalação do Yay
-if ! command -v yay &>/dev/null; then
-  echo "Instalando o Yay..."
-  sudo pacman -Syu --noconfirm git base-devel
-  git clone https://aur.archlinux.org/yay.git
-  cd yay
-  makepkg -si --noconfirm
-  cd ..
-  rm -rf yay
-else
-  echo "Yay já está instalado. Ignorando a instalação."
-fi
+function install_yay() {
+  # Instalação do Yay
+  if ! command -v yay &>/dev/null; then
+    echo "Instalando o Yay..."
+    sudo pacman -S yay --noconfirm
+  else
+    echo "Yay já está instalado. Ignorando a instalação."
+  fi
+}
 
 # Prompt para o usuário escolher entre instalar tudo ou escolher manualmente
 echo "Bem-vindo ao script de instalação do Manjaro! Escolha uma das opções abaixo:"
@@ -37,6 +34,9 @@ echo "2 - Instalar manualmente os programas desejados"
 read -p "Escolha uma opção: " opcao
 case $opcao in
 1)
+  install_yay
+  echo "Instalando pacote jq..."
+  sudo yay -S jq
   # Script para instalar todos os programas do repositório
   echo "Instalando todos os programas do repositório..."
   # criando o diretório para os scripts baixados
@@ -59,9 +59,12 @@ case $opcao in
 
   # excluindo o diretório que foi criado
   rm -r scripts_temp
+  echo "Removendo pacote jq..."
+  yay -R jq
 
   ;;
 2)
+  install_yay
   # Script para instalar manualmente os programas desejados
   install_manual
   ;;
