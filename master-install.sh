@@ -1,4 +1,5 @@
 #!/bin/bash
+
 echo "Executando script master..."
 echo "Verificando se o sistema está atualizado..."
 if ! sudo pacman -Syup &>/dev/null; then
