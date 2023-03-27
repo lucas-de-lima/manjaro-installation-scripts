@@ -1,0 +1,7 @@
+// Shell Format on save
+{
+ "[shellscript]": {
+     "editor.formatOnSave": true,
+     "editor.defaultFormatter": "foxundermoon.shell-format"
+ }
+}

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if yay -Q docker >/dev/null 2>&1; then
   echo "Docker já está instalado. Ignorando a instalação."
 else
