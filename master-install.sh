@@ -61,12 +61,15 @@ case $opcao in
   rm -r scripts_temp
   echo "Removendo pacote jq..."
   yay -R jq
+  echo "Reinicie o computador após a execução do script para garantir que todos os programa funcionaram corretamente"
 
   ;;
 2)
   install_yay
   # Script para instalar manualmente os programas desejados
   install_manual
+  echo "Reinicie o computador após a execução do script para garantir que todos os programa funcionaram corretamente"
+
   ;;
 *)
   echo "Opção inválida"
