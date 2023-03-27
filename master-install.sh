@@ -39,18 +39,27 @@ case $opcao in
 1)
   # Script para instalar todos os programas do repositório
   echo "Instalando todos os programas do repositório..."
-  # URL do repositório onde os arquivos .sh estão hospedados
-  repo_url="https://raw.githubusercontent.com/lucas-de-lima/manjaro-installation-scripts/main/programs/"
-  # Loop para percorrer todos os arquivos .sh no repositório
-  for file in $(curl -sSL $repo_url); do
-    # Mensagem para informar qual programa está sendo instalado
-    echo "Instalando $file..."
-    # Comando para baixar e executar o arquivo .sh correspondente ao programa
-    curl -sSL $repo_url$file | bash || {
-      echo "Ocorreu um erro na instalação do programa $file."
-      exit 1
-    }
+  # criando o diretório para os scripts baixados
+  mkdir -p scripts_temp
+
+  # fazendo a requisição à API do GitHub para obter os nomes dos scripts
+  raw_data=$(curl "https://api.github.com/repos/lucas-de-lima/manjaro-installation-scripts/contents/programs?ref=release")
+
+  # extraindo os nomes dos scripts do objeto retornado pela API e salvando em uma lista
+  scripts=($(echo "$raw_data" | grep -oE '"name": "[^"]+"' | cut -d'"' -f4))
+
+  # fazendo o download e a execução de cada script
+  for script in "${scripts[@]}"; do
+    echo "Baixando e executando $script..."
+    curl -sS "https://raw.githubusercontent.com/lucas-de-lima/manjaro-installation-scripts/release/programs/$script" -o "scripts_temp/$script"
+    chmod +x "scripts_temp/$script"
+    ./scripts_temp/$script
+    rm "scripts_temp/$script"
   done
+
+  # excluindo o diretório que foi criado
+  rm -r scripts_temp
+
   ;;
 2)
   # Script para instalar manualmente os programas desejados
