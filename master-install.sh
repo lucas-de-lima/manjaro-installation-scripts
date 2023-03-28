@@ -37,7 +37,7 @@ case $opcao in
 1)
   install_yay
   echo "Instalando pacote jq..."
-  sudo yay -S jq
+  sudo yay -S jq --noconfirm
   # Script para instalar todos os programas do repositório
   echo "Instalando todos os programas do repositório..."
   # criando o diretório para os scripts baixados
@@ -61,7 +61,7 @@ case $opcao in
   # excluindo o diretório que foi criado
   rm -r scripts_temp
   echo "Removendo pacote jq..."
-  yay -R jq
+  yay -R jq --noconfirm
   echo "Reinicie o computador após a execução do script para garantir que todos os programa funcionaram corretamente"
 
   ;;
