@@ -30,7 +30,7 @@ echo "Instalando todos os programas do repositório..."
 mkdir -p scripts_temp
 
 # fazendo a requisição à API do GitHub para obter os nomes dos scripts
-raw_data=$(curl "https://api.github.com/repos/lucas-de-lima/manjaro-installation-scripts/contents/programs?ref=release")
+raw_data=$(curl "https://api.github.com/repos/lucas-de-lima/manjaro-installation-scripts/contents/programs?ref=main")
 
 # extraindo os nomes dos scripts do objeto retornado pela API e salvando em uma lista
 scripts=($(echo "$raw_data" | grep -oE '"name": "[^"]+"' | cut -d'"' -f4))
@@ -38,7 +38,7 @@ scripts=($(echo "$raw_data" | grep -oE '"name": "[^"]+"' | cut -d'"' -f4))
 # fazendo o download e a execução de cada script
 for script in "${scripts[@]}"; do
   echo "Baixando e executando $script..."
-  curl -sS "https://raw.githubusercontent.com/lucas-de-lima/manjaro-installation-scripts/release/programs/$script" -o "scripts_temp/$script"
+  curl -sS "https://raw.githubusercontent.com/lucas-de-lima/manjaro-installation-scripts/main/programs/$script" -o "scripts_temp/$script"
   chmod +x "scripts_temp/$script"
   ./scripts_temp/$script
   rm "scripts_temp/$script"
