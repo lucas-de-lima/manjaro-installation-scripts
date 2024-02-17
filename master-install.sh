@@ -4,7 +4,7 @@ echo "Executando script master..."
 echo "Verificando se o sistema está atualizado..."
 if ! sudo pacman -Syup &>/dev/null; then
   echo "O sistema não está atualizado, atualizando agora..."
-  sudo pacman -Syu --noconfirm -y
+  sudo pacman -Syyu --noconfirm -y
 fi
 
 # Função para instalar o Yay
