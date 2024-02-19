@@ -12,7 +12,7 @@ else
     source ~/.zshrc
     source ~/.bashrc
 
-    echo "Definindo a versão 16 como padrão..."
-    nvm install 16
-    nvm use 16 --default
+    echo "Definindo a versão 20 como padrão..."
+    nvm install 20
+    nvm use 20 --default
 fi
